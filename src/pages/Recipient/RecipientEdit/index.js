@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FaCheck, FaArrowLeft } from 'react-icons/fa';
 import { Form, Input } from '@rocketseat/unform';
-import CepMask from '~/util/util';
+import CepMask from '~/util/cepMask';
 
 import history from '~/services/history';
 import * as recipientActions from '~/store/modules/recipient/actions';
@@ -21,7 +21,9 @@ export default function DeliveryManEdit() {
   useEffect(() => {
     if (data) {
       setTitulo('Edição de destinatário');
+
       setId(data.id);
+      setCep(CepMask(String(data.cep)));
     }
   }, [data]);
 
@@ -29,7 +31,9 @@ export default function DeliveryManEdit() {
     history.push('/recipient');
   };
 
-  const handlechange = (e) => {};
+  const handlechange = (e) => {
+    setCep(CepMask(e.target.value));
+  };
 
   const handleSubmit = () => {
     dispatch(
@@ -66,7 +70,7 @@ export default function DeliveryManEdit() {
         <Input name="nome" label="Nome" />
         <div>
           <div>
-            <Input name="cep" onChange={handlechange} label="Cep" />
+            <Input name="cep" onBlur={handlechange} label="Cep" value={cep} />
           </div>
           <div>
             <Input name="rua" label="Rua" />

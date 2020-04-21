@@ -10,12 +10,17 @@ export default function Select() {
   const [recipients, setRecipients] = useState([]);
   const [deliveryMans, setDeliveryMans] = useState([]);
 
-  const [valueRecipient, setValueRecipient] = useState();
-  const [valueDeliveryMan, setValueDeliveryMan] = useState();
+  const [valueRecipient, setValueRecipient] = useState({ id: '', label: '' });
+  const [valueDeliveryMan, setValueDeliveryMan] = useState({
+    id: '',
+    label: '',
+  });
   const optionsDeliveryman = [{ id: null, label: '' }];
   const optionsRecipients = [{ id: null, label: '' }];
 
   const dispatch = useDispatch();
+
+  const data = useSelector((state) => state.order);
 
   useEffect(() => {
     async function load() {
@@ -48,7 +53,7 @@ export default function Select() {
 
   const handleInputChangeDeliveryMan = (selectedOption) => {
     setValueDeliveryMan(selectedOption);
-    dispatch(orderActions.SetOrder(selectedOption));
+    dispatch(orderActions.SetDeliveryMan(selectedOption?.id || ''));
   };
 
   recipients.map((d) => {
@@ -70,7 +75,7 @@ export default function Select() {
 
   const handleInputChangeRecipient = (selectedOption) => {
     setValueRecipient(selectedOption);
-    dispatch(orderActions.SetOrder(valueRecipient || ''));
+    dispatch(orderActions.SetRecipient(selectedOption?.id || ''));
   };
 
   return (
@@ -79,7 +84,7 @@ export default function Select() {
         <p>Destinatário</p>
         <AsyncSelect
           isClearable
-          defaultOptions={optionsRecipients}
+          defaultOptions
           loadOptions={recipientPromiseOptions}
           onChange={handleInputChangeRecipient}
           value={valueRecipient}
@@ -90,7 +95,7 @@ export default function Select() {
         <p>Entregador</p>
         <AsyncSelect
           isClearable
-          defaultOptions={optionsDeliveryman}
+          defaultOptions
           loadOptions={deliveryManPromiseOptions}
           onChange={handleInputChangeDeliveryMan}
           value={valueDeliveryMan}

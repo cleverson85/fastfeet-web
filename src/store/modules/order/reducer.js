@@ -2,6 +2,12 @@ import produce from 'immer';
 
 const INITIAL_STATE = {
   data: null,
+  order: {
+    id: null,
+    recipient_id: null,
+    deliveryman_id: null,
+    product: null,
+  },
 };
 
 export default function order(state = INITIAL_STATE, action) {
@@ -23,7 +29,17 @@ export default function order(state = INITIAL_STATE, action) {
       }
 
       case '@order/SET_DELIVERYMAN': {
-        draft.data = action.id;
+        draft.order.deliveryman_id = action.payload.deliveryManId;
+        break;
+      }
+
+      case '@order/SET_RECIPIENT': {
+        draft.order.recipient_id = action.payload.recipientId;
+        break;
+      }
+
+      case '@order/SET_PRODUCT': {
+        draft.order.product = action.payload.product;
         break;
       }
 

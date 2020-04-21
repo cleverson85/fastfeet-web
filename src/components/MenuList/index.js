@@ -7,6 +7,7 @@ import { MdMoreHoriz, MdVisibility, MdCreate, MdDelete } from 'react-icons/md';
 
 import * as deliveryManActions from '~/store/modules/deliveryman/actions';
 import * as recipientActions from '~/store/modules/recipient/actions';
+import * as orderActions from '~/store/modules/order/actions';
 import * as appActions from '~/store/modules/app/actions';
 
 import { Item } from './styles';
@@ -39,6 +40,9 @@ export default function MenuList(props) {
         break;
       case '/recipientedit':
         dispatch(recipientActions.editRequest(props.id));
+        break;
+      case '/orderedit':
+        dispatch(orderActions.editRequest(props.id));
         break;
       default:
     }

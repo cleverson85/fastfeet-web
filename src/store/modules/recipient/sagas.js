@@ -39,18 +39,26 @@ function* addRecipient({ payload }) {
 }
 
 function* confirmDelete({ payload }) {
+  let response = null;
   try {
     const { id } = payload;
 
-    const response = yield call(api.delete, `recipient/${id}`);
+    response = yield call(api.delete, `recipient/${id}`);
 
     yield put(confirmSuccess(payload));
+
+    console.tron.log(response);
 
     toast.success('Operação efetuada com sucesso.');
 
     history.push('/recipient');
   } catch (e) {
-    toast.error('Ocorreu um erro ao efetuar a operação efetuada com sucesso.');
+    console.tron.log(response);
+    // toast.error(
+    //   response.error(
+    //     'Ocorreu um erro ao efetuar a operação efetuada com sucesso.'
+    //   )
+    // );
   }
 }
 

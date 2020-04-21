@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Input } from '@rocketseat/unform';
 import { FaPlus } from 'react-icons/fa';
 import Avatar from 'react-avatar';
-import getStatus from '~/util/util';
+import GetStatus from '~/util/status';
 import api from '~/services/api';
 import * as appActions from '~/store/modules/app/actions';
 import history from '~/services/history';
@@ -22,7 +22,7 @@ export default function Order() {
 
       const data = response.data.map((order) => ({
         ...order,
-        status: getStatus(order),
+        status: GetStatus(order),
       }));
 
       setOrders(data);
@@ -37,7 +37,7 @@ export default function Order() {
 
     const data = response.data.map((order) => ({
       ...order,
-      status: getStatus(order),
+      status: GetStatus(order),
     }));
 
     setOrders(data);
@@ -94,11 +94,11 @@ export default function Order() {
                 <span>
                   <Avatar
                     size="40"
-                    name={order.deliveryMan.name}
+                    name={order.deliveryMan?.name}
                     round="100%"
-                    src={order.deliveryMan.avatar.url}
+                    src={order.deliveryMan?.avatar.url}
                   />
-                  <p>{order.deliveryMan.name}</p>
+                  <p>{order.deliveryMan?.name}</p>
                 </span>
               </td>
               <td>
@@ -112,7 +112,11 @@ export default function Order() {
               </td>
               <td>
                 <div>
-                  <MenuList />
+                  <MenuList
+                    path="/orderedit"
+                    id={order.id}
+                    messageConfirm={`Confirma exclusão da encomenda ${order.product} para o destinatário ${order.recipient.nome}?`}
+                  />
                 </div>
               </td>
             </tr>

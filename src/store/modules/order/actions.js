@@ -1,11 +1,11 @@
-export function addRequest({ id, product, recipient_id, deliveryMan_id }) {
+export function addRequest({ id, recipient_id, deliveryman_id, product }) {
   return {
     type: '@order/ADD_REQUEST',
     payload: {
       id,
-      product,
       recipient_id,
-      deliveryMan_id,
+      deliveryman_id,
+      product,
     },
   };
 }
@@ -31,16 +31,23 @@ export function confirmSuccess(payload) {
   };
 }
 
-export function SetDeliveryMan({ id }) {
+export function SetDeliveryMan(id) {
   return {
     type: '@order/SET_DELIVERYMAN',
     payload: { deliveryManId: id },
   };
 }
 
-export function SetRecipient({ id }) {
+export function SetRecipient(id) {
   return {
-    type: '@order/SET_DELIVERYMAN',
+    type: '@order/SET_RECIPIENT',
     payload: { recipientId: id },
+  };
+}
+
+export function SetProduct(name) {
+  return {
+    type: '@order/SET_PRODUCT',
+    payload: { product: name },
   };
 }
