@@ -32,8 +32,6 @@ export default function MenuList(props) {
   };
 
   const Editar = () => {
-    console.tron.log(props.path);
-
     switch (props.path) {
       case '/deliverymanedit':
         dispatch(deliveryManActions.editRequest(props.id));
@@ -51,7 +49,14 @@ export default function MenuList(props) {
   };
 
   const Excluir = () => {
-    dispatch(appActions.confirmRequest(true, props.id, props.messageConfirm));
+    dispatch(
+      appActions.confirmRequest(
+        true,
+        props.id,
+        props.messageConfirm,
+        props.path
+      )
+    );
     handleClose();
   };
 

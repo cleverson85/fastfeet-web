@@ -20,7 +20,7 @@ export default function Select() {
 
   const dispatch = useDispatch();
 
-  const data = useSelector((state) => state.order);
+  const { data } = useSelector((state) => state.order);
 
   useEffect(() => {
     async function load() {
@@ -32,7 +32,18 @@ export default function Select() {
     }
 
     load();
-  }, []);
+
+    if (data) {
+      setValueRecipient({ id: data.recipient.id, label: data.recipient.nome });
+      dispatch(orderActions.SetRecipient(data.recipient.id));
+
+      setValueDeliveryMan({
+        id: data.deliveryMan.id,
+        label: data.deliveryMan.name,
+      });
+      dispatch(orderActions.SetDeliveryMan(data.deliveryMan.id));
+    }
+  }, [data, dispatch]);
 
   deliveryMans.map((d) => {
     return optionsDeliveryman.push({ id: d.id, label: d.name });
@@ -84,7 +95,8 @@ export default function Select() {
         <p>Destinatário</p>
         <AsyncSelect
           isClearable
-          defaultOptions
+          loadingMessage
+          defaultOptions={optionsRecipients}
           loadOptions={recipientPromiseOptions}
           onChange={handleInputChangeRecipient}
           value={valueRecipient}
@@ -95,7 +107,8 @@ export default function Select() {
         <p>Entregador</p>
         <AsyncSelect
           isClearable
-          defaultOptions
+          loadingMessage
+          defaultOptions={optionsDeliveryman}
           loadOptions={deliveryManPromiseOptions}
           onChange={handleInputChangeDeliveryMan}
           value={valueDeliveryMan}

@@ -5,6 +5,8 @@ const INITIAL_STATE = {
   open: false,
   id: null,
   messageConfirm: '',
+  path: '',
+  reload: false,
 };
 
 export default function app(state = INITIAL_STATE, action) {
@@ -19,6 +21,7 @@ export default function app(state = INITIAL_STATE, action) {
         draft.open = action.payload.open;
         draft.id = action.payload.id;
         draft.messageConfirm = action.payload.messageConfirm;
+        draft.path = action.payload.path;
         break;
       }
 
@@ -26,6 +29,13 @@ export default function app(state = INITIAL_STATE, action) {
         draft.open = false;
         draft.id = null;
         draft.messageConfirm = '';
+        draft.path = '';
+        draft.reload = true;
+        break;
+      }
+
+      case '@app/RELOAD': {
+        draft.reload = action.payload.value;
         break;
       }
 

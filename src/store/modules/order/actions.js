@@ -1,12 +1,7 @@
 export function addRequest({ id, recipient_id, deliveryman_id, product }) {
   return {
     type: '@order/ADD_REQUEST',
-    payload: {
-      id,
-      recipient_id,
-      deliveryman_id,
-      product,
-    },
+    payload: { id, recipient_id, deliveryman_id, product },
   };
 }
 
@@ -18,6 +13,8 @@ export function editRequest(id) {
 }
 
 export function editSuccess(payload) {
+  console.tron.log(payload);
+
   return {
     type: '@order/EDIT_SUCCESS',
     payload,
@@ -26,7 +23,7 @@ export function editSuccess(payload) {
 
 export function confirmSuccess(payload) {
   return {
-    type: '@app/CONFIRM_SUCCESS',
+    type: '@app/APP_CONFIRM_SUCCESS',
     payload,
   };
 }

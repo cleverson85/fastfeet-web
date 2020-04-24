@@ -14,26 +14,31 @@ export default function DeliveryManEdit() {
 
   const dispatch = useDispatch();
 
-  const { order } = useSelector((state) => state.order);
+  const { data } = useSelector((state) => state.order);
 
   useEffect(() => {
-    if (order) {
+    if (data) {
       setTitulo('Edição de encomendas');
-      setId(order.id);
+      setId(data.id);
+
+      dispatch(orderActions.SetProduct(data.product));
     }
-  }, [order]);
+  }, [data, dispatch]);
 
   const handleBack = () => {
     history.push('/order');
   };
 
+  const { order } = useSelector((state) => state.order);
+
   const handleSubmit = () => {
-    // order.id = id;
-    console.tron.log(order);
-    dispatch(orderActions.addRequest(order));
+    const { recipient_id, deliveryman_id, product } = order;
+    dispatch(
+      orderActions.addRequest({ id, recipient_id, deliveryman_id, product })
+    );
   };
 
-  const hancleProduct = (e) => {
+  const handleProduct = (e) => {
     dispatch(orderActions.SetProduct(e.target.value));
   };
 
@@ -53,13 +58,13 @@ export default function DeliveryManEdit() {
           </Button>
         </div>
       </div>
-      <Form initialData={order}>
+      <Form initialData={data}>
         <Select />
         <div>
           <Input
             name="product"
             label="Nome do Produto"
-            onBlur={hancleProduct}
+            onBlur={handleProduct}
           />
         </div>
       </Form>

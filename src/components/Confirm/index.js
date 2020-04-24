@@ -13,7 +13,7 @@ export default function ConfirmDialog() {
 
   const dispatch = useDispatch();
 
-  const { open, messageConfirm, id } = useSelector((state) => state.app);
+  const { open, messageConfirm, id, path } = useSelector((state) => state.app);
 
   useEffect(() => {
     setMessage(messageConfirm);
@@ -24,7 +24,7 @@ export default function ConfirmDialog() {
   };
 
   const handleConfirm = () => {
-    dispatch(appActions.confirmSucess(id));
+    dispatch(appActions.confirmSucess(id, path));
   };
 
   return (

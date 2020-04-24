@@ -10,7 +10,7 @@ function* addOrder({ payload }) {
     const { id } = payload;
     let response = null;
 
-    if (id) {
+    if (id > 0) {
       response = yield call(api.put, 'order', payload);
     } else {
       response = yield call(api.post, 'order', payload);
@@ -20,19 +20,19 @@ function* addOrder({ payload }) {
 
     history.push('/order');
   } catch (e) {
-    console.tron.log(e.message);
+    toast.error('Não foi possível executar a operação.');
   }
 }
 
 function* editOrder({ id }) {
   try {
-    const response = yield call(api.get, `recipient/${id}`);
+    const response = yield call(api.get, `order/${id}`);
 
     yield put(editSuccess(response.data));
 
     history.push('/orderedit');
   } catch (e) {
-    console.tron.log(e.message);
+    toast.error('Não foi possível executar a operação.');
   }
 }
 
@@ -48,16 +48,16 @@ function* confirmDelete({ payload }) {
 
     history.push('/order');
   } catch (e) {
-    toast.error('Ocorreu um erro ao efetuar a operação efetuada com sucesso.');
+    toast.error('Não foi possível executar a operação.');
   }
 }
 
 function setOrder() {}
 
 export default all([
-  takeLatest('@order/EDIT_REQUEST', editOrder),
   takeLatest('@order/ADD_REQUEST', addOrder),
+  takeLatest('@order/EDIT_REQUEST', editOrder),
   takeLatest('@order/SET_DELIVERYMAN', setOrder),
   takeLatest('@order/SET_RECIPIENT', setOrder),
-  takeLatest('@app/APP_CONFIRM_SUCCESS', confirmDelete),
+  takeLatest('@order/APP_CONFIRM_SUCCESS', confirmDelete),
 ]);

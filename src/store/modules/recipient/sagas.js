@@ -65,5 +65,5 @@ function* confirmDelete({ payload }) {
 export default all([
   takeLatest('@recipient/EDIT_REQUEST', editRecipient),
   takeLatest('@recipient/ADD_REQUEST', addRecipient),
-  takeLatest('@app/APP_CONFIRM_SUCCESS', confirmDelete),
+  takeLatest('@recipient/APP_CONFIRM_SUCCESS', confirmDelete),
 ]);

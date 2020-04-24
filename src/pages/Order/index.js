@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Input } from '@rocketseat/unform';
 import { FaPlus } from 'react-icons/fa';
 import Avatar from 'react-avatar';
@@ -15,6 +15,12 @@ export default function Order() {
   const [orders, setOrders] = useState([]);
 
   const dispatch = useDispatch();
+  dispatch(appActions.visibleRequest(true));
+
+  const { reload } = useSelector((state) => state.app);
+  if (reload) {
+    dispatch(appActions.reload(false));
+  }
 
   useEffect(() => {
     async function loadOrders() {
@@ -29,8 +35,7 @@ export default function Order() {
     }
 
     loadOrders();
-    dispatch(appActions.visibleRequest(true));
-  }, [dispatch]);
+  }, [reload]);
 
   async function findOrderByProductName(value) {
     const response = await api.get(`order?productName=${value}`);
@@ -92,15 +97,18 @@ export default function Order() {
               </td>
               <td>
                 <span>
-                  <Avatar
-                    size="40"
-                    name={order.deliveryMan?.name}
-                    round="100%"
-                    src={order.deliveryMan?.avatar.url}
-                  />
-                  <p>{order.deliveryMan?.name}</p>
+                  <div>
+                    <Avatar
+                      size="40"
+                      name={order.deliveryMan?.name}
+                      round="100%"
+                      src={order.deliveryMan?.avatar?.url}
+                    />
+                    {order.deliveryMan?.name}
+                  </div>
                 </span>
               </td>
+              <td />
               <td>
                 <span>{order.recipient.cidade}</span>
               </td>

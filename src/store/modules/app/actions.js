@@ -11,16 +11,44 @@ export function visibleRequest(visible) {
   };
 }
 
-export function confirmRequest(open, id, messageConfirm) {
+export function reload(value) {
   return {
-    type: '@app/APP_CONFIRM_REQUEST',
-    payload: { open, id, messageConfirm },
+    type: '@app/RELOAD',
+    payload: { value },
   };
 }
 
-export function confirmSucess(id) {
+export function confirmRequest(open, id, messageConfirm, path) {
   return {
-    type: '@app/APP_CONFIRM_SUCCESS',
-    payload: { id },
+    type: '@app/APP_CONFIRM_REQUEST',
+    payload: { open, id, messageConfirm, path },
   };
+}
+
+export function confirmSucess(id, path) {
+  switch (path) {
+    case '/deliverymanedit':
+      return {
+        type: '@deliveryman/APP_CONFIRM_SUCCESS',
+        payload: { id },
+      };
+
+    case '/recipientedit':
+      return {
+        type: '@recipient/APP_CONFIRM_SUCCESS',
+        payload: { id },
+      };
+
+    case '/orderedit':
+      return {
+        type: '@order/APP_CONFIRM_SUCCESS',
+        payload: { id },
+      };
+
+    default:
+      return {
+        type: '@app/APP_CONFIRM_SUCCESS',
+        payload: { id },
+      };
+  }
 }
