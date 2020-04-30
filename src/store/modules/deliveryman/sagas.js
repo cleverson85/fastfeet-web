@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import api from '~/services/api';
 import history from '~/services/history';
 
-import { editSuccess, confirmSuccess } from './actions';
+import { editSuccess, confirmRequest, confirmSuccess } from './actions';
 
 function* editDeliveryMan({ id }) {
   try {
@@ -13,7 +13,7 @@ function* editDeliveryMan({ id }) {
 
     history.push('/deliverymanedit');
   } catch (e) {
-    console.tron.log(e.message);
+    toast.warn(e);
   }
 }
 
@@ -28,11 +28,17 @@ function* addDeliveryMan({ payload }) {
       response = yield call(api.post, 'deliveryman', payload);
     }
 
-    toast.success('Operação efetuada com sucesso.');
+    const { data } = response;
+
+    if (data.status !== 200) {
+      throw data.message;
+    }
+
+    toast.success(data.message);
 
     history.push('/deliveryman');
   } catch (e) {
-    console.tron.log(e.message);
+    toast.warn(e);
   }
 }
 
@@ -44,11 +50,18 @@ function* confirmDelete({ payload }) {
 
     yield put(confirmSuccess(payload));
 
-    toast.success('Operação efetuada com sucesso.');
+    const { data } = response;
+
+    if (data.status !== 200) {
+      throw data.message;
+    }
+
+    toast.success(data.message);
 
     history.push('/deliveryman');
   } catch (e) {
-    toast.error('Ocorreu um erro ao efetuar a operação efetuada com sucesso.');
+    yield put(confirmRequest(false, null, null, null));
+    toast.warn(e);
   }
 }
 

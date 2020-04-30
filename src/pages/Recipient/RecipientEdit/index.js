@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { FaCheck, FaArrowLeft } from 'react-icons/fa';
 import { Form, Input } from '@rocketseat/unform';
 import CepMask from '~/util/cepMask';
-
+import apiCep from '~/services/apiCep';
 import history from '~/services/history';
 import * as recipientActions from '~/store/modules/recipient/actions';
 
@@ -11,43 +11,57 @@ import { Container, Button } from './styles';
 
 export default function DeliveryManEdit() {
   const [titulo, setTitulo] = useState('Cadastro de destinatário');
-  const [cep, setCep] = useState(null);
-  const [id, setId] = useState(null);
+  // const [cep, setCep] = useState(null);
+  const [id, setRecipientId] = useState(null);
 
   const dispatch = useDispatch();
 
-  const data = useSelector((state) => state.recipient.data);
+  const recipient = useSelector((state) => state.recipient.data);
 
   useEffect(() => {
-    if (data) {
+    if (recipient && recipient.id > 0) {
       setTitulo('Edição de destinatário');
-
-      setId(data.id);
-      setCep(CepMask(String(data.cep)));
+      setRecipientId(recipient.id);
     }
-  }, [data]);
+  }, [recipient]);
 
   const handleBack = () => {
     history.push('/recipient');
   };
 
-  const handlechange = (e) => {
-    setCep(CepMask(e.target.value));
-  };
+  async function handleCep(e) {
+    const response = await apiCep(e);
+    const { data } = response;
+    const { cep, logradouro: rua, localidade: cidade, uf: estado } = data;
 
-  const handleSubmit = () => {
+    dispatch(
+      recipientActions.setLocation({
+        cep,
+        logradouro: rua,
+        localidade: cidade,
+        uf: estado,
+      })
+    );
+  }
+
+  const handleSubmit = (values) => {
+    const { nome, cep, rua, numero, cidade, estado, complemento } = values;
     dispatch(
       recipientActions.addRequest({
         id,
-        nome: document.getElementsByName('nome')[0].value,
-        cep: document.getElementsByName('cep')[0].value,
-        rua: document.getElementsByName('rua')[0].value,
-        numero: document.getElementsByName('numero')[0].value,
-        cidade: document.getElementsByName('cidade')[0].value,
-        estado: document.getElementsByName('estado')[0].value,
-        complemento: document.getElementsByName('complemento')[0].value,
+        nome,
+        cep,
+        rua,
+        numero,
+        cidade,
+        estado,
+        complemento,
       })
     );
+  };
+
+  const handleSaveButton = () => {
+    document.getElementById('Salvar').click();
   };
 
   return (
@@ -60,17 +74,21 @@ export default function DeliveryManEdit() {
             VOLTAR
           </Button>
 
-          <Button label="salvar" onClick={handleSubmit}>
+          <Button label="salvar" onClick={handleSaveButton}>
             <FaCheck color="#FFF" size={12} />
             SALVAR
           </Button>
         </div>
       </div>
-      <Form initialData={data}>
+      <Form initialData={recipient} onSubmit={handleSubmit}>
         <Input name="nome" label="Nome" />
         <div>
           <div>
-            <Input name="cep" onBlur={handlechange} label="Cep" value={cep} />
+            <Input
+              name="cep"
+              onBlur={(e) => handleCep(e.target.value)}
+              label="Cep"
+            />
           </div>
           <div>
             <Input name="rua" label="Rua" />
@@ -90,6 +108,7 @@ export default function DeliveryManEdit() {
             <Input name="complemento" label="Complemento" />
           </div>
         </div>
+        <button type="submit" id="Salvar" label="Salvar" />
       </Form>
     </Container>
   );

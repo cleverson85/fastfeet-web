@@ -16,11 +16,17 @@ function* addOrder({ payload }) {
       response = yield call(api.post, 'order', payload);
     }
 
-    toast.success('Operação efetuada com sucesso.');
+    const { data } = response;
+
+    if (data.status !== 200) {
+      throw data.message;
+    }
+
+    toast.success(data.message);
 
     history.push('/order');
   } catch (e) {
-    toast.error('Não foi possível executar a operação.');
+    toast.warn(e);
   }
 }
 
@@ -44,11 +50,17 @@ function* confirmDelete({ payload }) {
 
     yield put(confirmSuccess(payload));
 
-    toast.success('Operação efetuada com sucesso.');
+    const { data } = response;
+
+    if (data.status !== 200) {
+      throw data.message;
+    }
+
+    toast.success(data.message);
 
     history.push('/order');
   } catch (e) {
-    toast.error('Não foi possível executar a operação.');
+    toast.warn(e);
   }
 }
 

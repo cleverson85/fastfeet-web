@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Input } from '@rocketseat/unform';
 import { FaPlus } from 'react-icons/fa';
 import Avatar from 'react-avatar';
 import api from '~/services/api';
 import history from '~/services/history';
-import * as deliveryManActions from '~/store/modules/deliveryman/actions';
 import * as appActions from '~/store/modules/app/actions';
 
 import MenuList from '~/components/MenuList';
@@ -13,7 +12,14 @@ import { Container, Table } from '~/components/Container/styles';
 
 export default function DeliveryMan() {
   const [deliveryMans, setdeliveryMan] = useState([]);
+
   const dispatch = useDispatch();
+  dispatch(appActions.visibleRequest(false));
+
+  const { reload } = useSelector((state) => state.app);
+  if (reload) {
+    dispatch(appActions.reload(false));
+  }
 
   useEffect(() => {
     async function loadDeliveryMan() {
@@ -22,8 +28,7 @@ export default function DeliveryMan() {
     }
 
     loadDeliveryMan();
-    dispatch(appActions.visibleRequest(false));
-  }, [dispatch]);
+  }, [reload]);
 
   async function findDeliveryManByName(value) {
     const response = await api.get(`deliveryman?deliveryman=${value}`);

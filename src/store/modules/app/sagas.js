@@ -1,4 +1,4 @@
-import { all, takeLatest, put, call } from 'redux-saga/effects';
+import { all, takeLatest } from 'redux-saga/effects';
 
 function setVisible() {}
 

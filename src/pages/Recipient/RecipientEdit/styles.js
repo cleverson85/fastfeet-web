@@ -62,7 +62,10 @@ export const Container = styled.div.attrs((props) => ({
 
       div {
         width: 100%;
-        margin-right: 15px;
+
+        &:nth-child(2) {
+          margin: 0 15px;
+        }
 
         label {
           text-align: left;
@@ -89,6 +92,10 @@ export const Container = styled.div.attrs((props) => ({
           opacity: 1;
         }
       }
+    }
+
+    button {
+      display: none;
     }
   }
 `;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Input } from '@rocketseat/unform';
 import { FaPlus } from 'react-icons/fa';
 import api from '~/services/api';
@@ -13,6 +13,12 @@ export default function Recipient() {
   const [recipients, setRecipient] = useState([]);
 
   const dispatch = useDispatch();
+  dispatch(appActions.visibleRequest(false));
+
+  const { reload } = useSelector((state) => state.app);
+  if (reload) {
+    dispatch(appActions.reload(false));
+  }
 
   useEffect(() => {
     async function loadRecipients() {
@@ -21,8 +27,7 @@ export default function Recipient() {
     }
 
     loadRecipients();
-    dispatch(appActions.visibleRequest(false));
-  }, [dispatch]);
+  }, [reload]);
 
   async function findRecipientByName(value) {
     const response = await api.get(`recipient?name=${value}`);

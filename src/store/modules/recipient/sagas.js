@@ -3,17 +3,22 @@ import { toast } from 'react-toastify';
 import api from '~/services/api';
 import history from '~/services/history';
 
-import { editSuccess, confirmSuccess } from './actions';
+import { editSuccess, confirmRequest, confirmSuccess } from './actions';
+import CepMask from '~/util/cepMask';
 
 function* editRecipient({ id }) {
   try {
     const response = yield call(api.get, `recipient/${id}`);
 
+    const { cep } = response.data;
+
+    response.data.cep = CepMask(String(cep));
+
     yield put(editSuccess(response.data));
 
     history.push('/recipientedit');
   } catch (e) {
-    console.tron.log(e.message);
+    toast.warn(e);
   }
 }
 
@@ -30,11 +35,17 @@ function* addRecipient({ payload }) {
       response = yield call(api.post, 'recipient', payload);
     }
 
-    toast.success('Operação efetuada com sucesso.');
+    const { data } = response;
+
+    if (data.status !== 200) {
+      throw data.message;
+    }
+
+    toast.success(data.message);
 
     history.push('/recipient');
   } catch (e) {
-    console.tron.log(e.message);
+    toast.warn(e);
   }
 }
 
@@ -45,25 +56,28 @@ function* confirmDelete({ payload }) {
 
     response = yield call(api.delete, `recipient/${id}`);
 
+    const { data } = response;
+
+    if (data.status !== 200) {
+      throw data.message;
+    }
+
     yield put(confirmSuccess(payload));
 
-    console.tron.log(response);
-
-    toast.success('Operação efetuada com sucesso.');
+    toast.success(data.message);
 
     history.push('/recipient');
   } catch (e) {
-    console.tron.log(response);
-    // toast.error(
-    //   response.error(
-    //     'Ocorreu um erro ao efetuar a operação efetuada com sucesso.'
-    //   )
-    // );
+    yield put(confirmRequest(false, null, null, null));
+    toast.warn(e);
   }
 }
+
+function setLocation() {}
 
 export default all([
   takeLatest('@recipient/EDIT_REQUEST', editRecipient),
   takeLatest('@recipient/ADD_REQUEST', addRecipient),
   takeLatest('@recipient/APP_CONFIRM_SUCCESS', confirmDelete),
+  takeLatest('@recipient/LOCATION_REQUEST', setLocation),
 ]);

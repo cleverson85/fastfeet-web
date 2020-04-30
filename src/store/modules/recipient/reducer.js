@@ -22,6 +22,11 @@ export default function recipient(state = INITIAL_STATE, action) {
         break;
       }
 
+      case '@recipient/LOCATION_REQUEST': {
+        draft.data = action.payload;
+        break;
+      }
+
       default:
     }
   });
