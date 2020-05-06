@@ -19,6 +19,10 @@ export const Header = styled.header`
   background: #ffffff 0% 0% no-repeat padding-box;
   border: 1px solid #dddddd;
   opacity: 1;
+
+  img {
+    margin-left: 10px;
+  }
 `;
 
 export const User = styled.div`

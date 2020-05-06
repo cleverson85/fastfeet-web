@@ -16,7 +16,7 @@ import {
   User,
 } from './styles';
 
-import logofastfeet from '~/assets/images/logofastfeet.png';
+import logofastfeet from '~/assets/images/logo.png';
 
 export default function DefaultLayout({ children }) {
   const user = useSelector((state) => state.user.profile.name);
@@ -30,7 +30,7 @@ export default function DefaultLayout({ children }) {
     <Container>
       <Header>
         <Link to="/dashboard">
-          <img src={logofastfeet} alt="FastFeet" />
+          <img src={logofastfeet} alt="FastFeet" width="300px" />
         </Link>
         <Menu>
           <Order to="/order">ENCOMENDAS</Order>

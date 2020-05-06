@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 import { loginRequest } from '~/store/modules/auth/actions';
 
 import { Container, Header } from './styles';
-import logo from '~/assets/images/fast.svg';
+import logo from '~/assets/images/logo.png';
 
 const schema = Yup.object().shape({
   email: Yup.string()
@@ -25,8 +25,7 @@ export default function Login() {
   return (
     <Container>
       <Header>
-        <img src={logo} alt="FastFeet" />
-        <h1>FASTFEET</h1>
+        <img src={logo} alt="FastFeet" width="300px" />
       </Header>
       <Form onSubmit={handleSubmit} schema={schema}>
         <div>
