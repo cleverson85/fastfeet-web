@@ -76,6 +76,7 @@ export default function Order() {
             <th>ID</th>
             <th>Destinatário</th>
             <th>Produto</th>
+            <th />
             <th>Entregador</th>
             <th>Cidade</th>
             <th>Estado</th>
@@ -104,9 +105,11 @@ export default function Order() {
                       round="100%"
                       src={order.deliveryMan?.avatar?.url}
                     />
-                    {order.deliveryMan?.name}
                   </div>
                 </span>
+              </td>
+              <td>
+                <span>{order.deliveryMan?.name}</span>
               </td>
               <td>
                 <span>{order.recipient.cidade}</span>
@@ -123,6 +126,7 @@ export default function Order() {
                     path="/orderedit"
                     id={order.id}
                     messageConfirm={`Confirma exclusão da encomenda ${order.product} para o destinatário ${order.recipient.nome}?`}
+                    order={order}
                   />
                 </div>
               </td>

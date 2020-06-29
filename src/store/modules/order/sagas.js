@@ -23,7 +23,6 @@ function* addOrder({ payload }) {
     }
 
     toast.success(data.message);
-
     history.push('/order');
   } catch (e) {
     toast.warn(e);
@@ -33,7 +32,6 @@ function* addOrder({ payload }) {
 function* editOrder({ id }) {
   try {
     const response = yield call(api.get, `order/${id}`);
-
     yield put(editSuccess(response.data));
 
     history.push('/orderedit');
@@ -45,11 +43,9 @@ function* editOrder({ id }) {
 function* confirmDelete({ payload }) {
   try {
     const { id } = payload;
-
     const response = yield call(api.delete, `order/${id}`);
 
     yield put(confirmSuccess(payload));
-
     const { data } = response;
 
     if (data.status !== 200) {
@@ -57,8 +53,26 @@ function* confirmDelete({ payload }) {
     }
 
     toast.success(data.message);
-
     history.push('/order');
+  } catch (e) {
+    toast.warn(e);
+  }
+}
+
+function* cancelOrder({ payload }) {
+  try {
+    const { id } = payload;
+    const response = yield call(api.put, `cancelDelivery/${id}/cancel`);
+
+    yield put(confirmSuccess(payload));
+    const { data } = response;
+
+    if (data.status !== 200) {
+      throw data.message;
+    }
+
+    toast.success(data.message);
+    history.push('/issues');
   } catch (e) {
     toast.warn(e);
   }
@@ -72,4 +86,5 @@ export default all([
   takeLatest('@order/SET_DELIVERYMAN', setOrder),
   takeLatest('@order/SET_RECIPIENT', setOrder),
   takeLatest('@order/APP_CONFIRM_SUCCESS', confirmDelete),
+  takeLatest('@order/CANCEL_SUCCESS', cancelOrder),
 ]);

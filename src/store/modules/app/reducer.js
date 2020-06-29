@@ -7,6 +7,10 @@ const INITIAL_STATE = {
   messageConfirm: '',
   path: '',
   reload: false,
+  openModal: false,
+  description: '',
+  type: '',
+  order: null,
 };
 
 export default function app(state = INITIAL_STATE, action) {
@@ -36,6 +40,14 @@ export default function app(state = INITIAL_STATE, action) {
 
       case '@app/RELOAD': {
         draft.reload = action.payload.value;
+        break;
+      }
+
+      case '@app/VIEW_MODAL_REQUEST': {
+        draft.openModal = action.payload.openModal;
+        draft.description = action.payload.description;
+        draft.type = action.payload.type;
+        draft.order = action.payload.order;
         break;
       }
 

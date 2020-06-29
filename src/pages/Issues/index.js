@@ -7,14 +7,13 @@ import MenuList from '~/components/MenuList';
 import { Container, Table } from '~/components/Container/styles';
 
 export default function Issues() {
-  const [issues, setIssue] = useState([]);
-
+  const [issues, setIssues] = useState([]);
   const dispatch = useDispatch();
 
   useEffect(() => {
     async function loadIssues() {
       const response = await api.get('deliveryissues');
-      setIssue(response.data);
+      setIssues(response.data);
     }
 
     loadIssues();
@@ -41,10 +40,16 @@ export default function Issues() {
                 <span>#{issue.order.id}</span>
               </td>
               <td>
-                <span>{issue.description}</span>
+                <span>{issue.description.substring(0, 15)}</span>
               </td>
               <td>
-                <MenuList />
+                <MenuList
+                  view="issue"
+                  id={issue.order.id}
+                  description={issue.description}
+                  path="/cancel"
+                  messageConfirm={`Confirma o cancelamneto da encomenda #${issue.order.id} para o destinatário ${issue.order.recipient.nome}?`}
+                />
               </td>
             </tr>
           ))}

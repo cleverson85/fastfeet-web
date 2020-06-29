@@ -11,6 +11,13 @@ export function visibleRequest(visible) {
   };
 }
 
+export function viewModalRequest(openModal, description, type, order) {
+  return {
+    type: '@app/VIEW_MODAL_REQUEST',
+    payload: { openModal, description, type, order },
+  };
+}
+
 export function reload(value) {
   return {
     type: '@app/RELOAD',
@@ -42,6 +49,12 @@ export function confirmSucess(id, path) {
     case '/orderedit':
       return {
         type: '@order/APP_CONFIRM_SUCCESS',
+        payload: { id },
+      };
+
+    case '/cancel':
+      return {
+        type: '@order/CANCEL_SUCCESS',
         payload: { id },
       };
 

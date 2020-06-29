@@ -14,10 +14,9 @@ import { Item } from './styles';
 
 export default function MenuList(props) {
   const [anchorEl, setAnchorEl] = useState(null);
-
   const dispatch = useDispatch();
-
   const isVisible = useSelector((state) => state.app.visible);
+  const { id, description, messageConfirm, path, view, order } = props;
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -28,19 +27,20 @@ export default function MenuList(props) {
   };
 
   const Visualizar = () => {
+    dispatch(appActions.viewModalRequest(true, description, view, order));
     handleClose();
   };
 
   const Editar = () => {
     switch (props.path) {
       case '/deliverymanedit':
-        dispatch(deliveryManActions.editRequest(props.id));
+        dispatch(deliveryManActions.editRequest(id));
         break;
       case '/recipientedit':
-        dispatch(recipientActions.editRequest(props.id));
+        dispatch(recipientActions.editRequest(id));
         break;
       case '/orderedit':
-        dispatch(orderActions.editRequest(props.id));
+        dispatch(orderActions.editRequest(id));
         break;
       default:
     }
@@ -49,14 +49,8 @@ export default function MenuList(props) {
   };
 
   const Excluir = () => {
-    dispatch(
-      appActions.confirmRequest(
-        true,
-        props.id,
-        props.messageConfirm,
-        props.path
-      )
-    );
+    dispatch(appActions.confirmRequest(true, id, messageConfirm, path));
+
     handleClose();
   };
 
@@ -76,19 +70,21 @@ export default function MenuList(props) {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        {isVisible ? (
+        {isVisible || view === 'issue' ? (
           <MenuItem item="visualizar" onClick={Visualizar}>
             <MdVisibility color="#8e5be8" />
             <Item>Visualizar</Item>
           </MenuItem>
         ) : null}
-        <MenuItem item="editar" onClick={Editar}>
-          <MdCreate color="#4d85ee" />
-          <Item>Editar</Item>
-        </MenuItem>
+        {view === 'issue' ? null : (
+          <MenuItem item="editar" onClick={Editar}>
+            <MdCreate color="#4d85ee" />
+            <Item>Editar</Item>
+          </MenuItem>
+        )}
         <MenuItem item="excluir" onClick={Excluir}>
           <MdDelete color="#de3b3b" />
-          <Item>Excluir</Item>
+          <Item>{view === 'issue' ? 'Cancelar encomenda' : 'Excluir'} </Item>
         </MenuItem>
       </Menu>
     </div>

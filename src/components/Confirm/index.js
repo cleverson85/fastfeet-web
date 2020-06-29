@@ -10,9 +10,7 @@ import * as appActions from '~/store/modules/app/actions';
 
 export default function ConfirmDialog() {
   const [message, setMessage] = useState('');
-
   const dispatch = useDispatch();
-
   const { open, messageConfirm, id, path } = useSelector((state) => state.app);
 
   useEffect(() => {

@@ -5,6 +5,7 @@ import { Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
 import ConfirmDialog from '~/components/Confirm';
+import SimpleModal from '~/components/Modal';
 
 import './config/ReactotronConfig';
 
@@ -24,6 +25,7 @@ function App() {
           <GlobalStyle />
           <ToastContainer autoClose={3000} />
           <ConfirmDialog />
+          <SimpleModal />
         </Router>
       </PersistGate>
     </Provider>

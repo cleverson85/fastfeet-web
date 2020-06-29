@@ -38,10 +38,10 @@ export default function Select() {
       dispatch(orderActions.SetRecipient(data.recipient.id));
 
       setValueDeliveryMan({
-        id: data.deliveryMan.id,
-        label: data.deliveryMan.name,
+        id: data.deliveryMan?.id,
+        label: data.deliveryMan?.name,
       });
-      dispatch(orderActions.SetDeliveryMan(data.deliveryMan.id));
+      dispatch(orderActions.SetDeliveryMan(data.deliveryMan?.id || {}));
     }
   }, [data, dispatch]);
 
