@@ -8,12 +8,15 @@ import history from '~/services/history';
 import * as appActions from '~/store/modules/app/actions';
 
 import MenuList from '~/components/MenuList';
+import Pages from '~/components/Pagination';
 import { Container, Table } from '~/components/Container/styles';
 
 export default function DeliveryMan() {
   const [deliveryMans, setdeliveryMan] = useState([]);
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itensPerPage] = useState(8);
   const dispatch = useDispatch();
+
   dispatch(appActions.visibleRequest(false));
 
   const { reload } = useSelector((state) => state.app);
@@ -39,6 +42,10 @@ export default function DeliveryMan() {
     dispatch(appActions.clearRequest());
     history.push('/deliverymanedit');
   };
+
+  const indexOfLastPost = currentPage * itensPerPage;
+  const indexOfFirstPost = indexOfLastPost - itensPerPage;
+  const currents = deliveryMans.slice(indexOfFirstPost, indexOfLastPost);
 
   return (
     <Container>
@@ -68,7 +75,7 @@ export default function DeliveryMan() {
           </tr>
         </thead>
         <tbody>
-          {deliveryMans.map((d) => (
+          {currents.map((d) => (
             <tr key={d.id}>
               <td>
                 <span>#{d.id}</span>
@@ -106,6 +113,10 @@ export default function DeliveryMan() {
           ))}
         </tbody>
       </Table>
+      <Pages
+        totalItemsCount={deliveryMans.length}
+        setCurrentPage={setCurrentPage}
+      />
     </Container>
   );
 }

@@ -16,7 +16,9 @@ export default function MenuList(props) {
   const [anchorEl, setAnchorEl] = useState(null);
   const dispatch = useDispatch();
   const isVisible = useSelector((state) => state.app.visible);
-  const { id, description, messageConfirm, path, view, order } = props;
+  const { id, description, messageConfirm, path, view, order, status } = props;
+
+  console.log(status?.props.status);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -76,16 +78,22 @@ export default function MenuList(props) {
             <Item>Visualizar</Item>
           </MenuItem>
         ) : null}
-        {view === 'issue' ? null : (
+
+        {view === 'issue' ||
+        status?.props.status === 'retirado' ||
+        status?.props.status === 'cancelado' ? null : (
           <MenuItem item="editar" onClick={Editar}>
             <MdCreate color="#4d85ee" />
             <Item>Editar</Item>
           </MenuItem>
         )}
-        <MenuItem item="excluir" onClick={Excluir}>
-          <MdDelete color="#de3b3b" />
-          <Item>{view === 'issue' ? 'Cancelar encomenda' : 'Excluir'} </Item>
-        </MenuItem>
+
+        {status?.props.status === 'retirado' ? null : (
+          <MenuItem item="excluir" onClick={Excluir}>
+            <MdDelete color="#de3b3b" />
+            <Item>{view === 'issue' ? 'Cancelar encomenda' : 'Excluir'} </Item>
+          </MenuItem>
+        )}
       </Menu>
     </div>
   );

@@ -9,12 +9,15 @@ import * as appActions from '~/store/modules/app/actions';
 import history from '~/services/history';
 
 import MenuList from '~/components/MenuList';
+import Pages from '~/components/Pagination';
 import { Container, Table } from '~/components/Container/styles';
 
 export default function Order() {
   const [orders, setOrders] = useState([]);
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itensPerPage] = useState(8);
   const dispatch = useDispatch();
+
   dispatch(appActions.visibleRequest(true));
 
   const { reload } = useSelector((state) => state.app);
@@ -47,6 +50,10 @@ export default function Order() {
 
     setOrders(data);
   }
+
+  const indexOfLastPost = currentPage * itensPerPage;
+  const indexOfFirstPost = indexOfLastPost - itensPerPage;
+  const currents = orders.slice(indexOfFirstPost, indexOfLastPost);
 
   const orderCad = () => {
     dispatch(appActions.clearRequest());
@@ -85,13 +92,13 @@ export default function Order() {
           </tr>
         </thead>
         <tbody>
-          {orders.map((order) => (
+          {currents.map((order) => (
             <tr key={order.id}>
               <td>
                 <span>#{order.id}</span>
               </td>
               <td>
-                <span>{order.recipient.nome}</span>
+                <span>{order?.recipient?.nome}</span>
               </td>
               <td>
                 <span>{order.product}</span>
@@ -112,10 +119,10 @@ export default function Order() {
                 <span>{order.deliveryMan?.name}</span>
               </td>
               <td>
-                <span>{order.recipient.cidade}</span>
+                <span>{order.recipient?.cidade}</span>
               </td>
               <td>
-                <span>{order.recipient.estado}</span>
+                <span>{order.recipient?.estado}</span>
               </td>
               <td>
                 <span>{order.status}</span>
@@ -125,8 +132,9 @@ export default function Order() {
                   <MenuList
                     path="/orderedit"
                     id={order.id}
-                    messageConfirm={`Confirma exclusão da encomenda ${order.product} para o destinatário ${order.recipient.nome}?`}
+                    messageConfirm={`Confirma exclusão da encomenda ${order.product} para o destinatário ${order.recipient?.nome}?`}
                     order={order}
+                    status={order.status}
                   />
                 </div>
               </td>
@@ -134,6 +142,7 @@ export default function Order() {
           ))}
         </tbody>
       </Table>
+      <Pages totalItemsCount={orders.length} setCurrentPage={setCurrentPage} />
     </Container>
   );
 }

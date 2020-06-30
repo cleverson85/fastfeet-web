@@ -7,12 +7,15 @@ import * as appActions from '~/store/modules/app/actions';
 import history from '~/services/history';
 
 import MenuList from '~/components/MenuList';
+import Pages from '~/components/Pagination';
 import { Container, Table } from '~/components/Container/styles';
 
 export default function Recipient() {
   const [recipients, setRecipient] = useState([]);
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itensPerPage] = useState(8);
   const dispatch = useDispatch();
+
   dispatch(appActions.visibleRequest(false));
 
   const { reload } = useSelector((state) => state.app);
@@ -38,6 +41,10 @@ export default function Recipient() {
     dispatch(appActions.clearRequest());
     history.push('/recipientedit');
   };
+
+  const indexOfLastPost = currentPage * itensPerPage;
+  const indexOfFirstPost = indexOfLastPost - itensPerPage;
+  const currents = recipients.slice(indexOfFirstPost, indexOfLastPost);
 
   return (
     <Container>
@@ -66,7 +73,7 @@ export default function Recipient() {
           </tr>
         </thead>
         <tbody>
-          {recipients.map((r) => (
+          {currents.map((r) => (
             <tr key={r.id}>
               <td>
                 <span>#{r.id}</span>
@@ -90,6 +97,10 @@ export default function Recipient() {
           ))}
         </tbody>
       </Table>
+      <Pages
+        totalItemsCount={recipients.length}
+        setCurrentPage={setCurrentPage}
+      />
     </Container>
   );
 }

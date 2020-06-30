@@ -4,10 +4,13 @@ import api from '~/services/api';
 
 import * as appActions from '~/store/modules/app/actions';
 import MenuList from '~/components/MenuList';
+import Pages from '~/components/Pagination';
 import { Container, Table } from '~/components/Container/styles';
 
 export default function Issues() {
   const [issues, setIssues] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itensPerPage] = useState(8);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -19,6 +22,10 @@ export default function Issues() {
     loadIssues();
     dispatch(appActions.visibleRequest(false));
   }, [dispatch]);
+
+  const indexOfLastPost = currentPage * itensPerPage;
+  const indexOfFirstPost = indexOfLastPost - itensPerPage;
+  const currents = issues.slice(indexOfFirstPost, indexOfLastPost);
 
   return (
     <Container>
@@ -34,7 +41,7 @@ export default function Issues() {
           </tr>
         </thead>
         <tbody>
-          {issues.map((issue) => (
+          {currents.map((issue) => (
             <tr key={issue.id}>
               <td>
                 <span>#{issue.order.id}</span>
@@ -55,6 +62,7 @@ export default function Issues() {
           ))}
         </tbody>
       </Table>
+      <Pages totalItemsCount={issues.length} setCurrentPage={setCurrentPage} />
     </Container>
   );
 }
