@@ -4,11 +4,11 @@ import Route from './Route';
 
 import Login from '~/pages/Login';
 import DeliveryMan from '~/pages/DeliveryMan';
-import DeliveryManEdit from '~/pages/DeliveryMan/DeliveryManEdit';
+import DeliveryManEdit from '~/pages/DeliveryManEdit';
 import Order from '~/pages/Order';
-import OrderEdit from '~/pages/Order/OrderEdit';
+import OrderEdit from '~/pages/OrderEdit';
 import Recipient from '~/pages/Recipient';
-import RecipientEdit from '~/pages/Recipient/RecipientEdit';
+import RecipientEdit from '~/pages/RecipientEdit';
 import Issues from '~/pages/Issues';
 import Dashboard from '~/pages/Dashboard';
 

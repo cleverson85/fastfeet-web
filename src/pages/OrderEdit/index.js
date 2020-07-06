@@ -2,15 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FaCheck, FaArrowLeft } from 'react-icons/fa';
 import { Form, Input } from '@rocketseat/unform';
-import Select from './Select';
+import Select from '../../components/Select';
 import history from '~/services/history';
 import * as orderActions from '~/store/modules/order/actions';
 
-import { Container, Button } from './styles';
+import { Container } from './styles';
+import { Button } from '~/components/ContainerEdit/styles';
 
 export default function DeliveryManEdit() {
   const [titulo, setTitulo] = useState('Cadastro de encomendas');
   const [id, setId] = useState(null);
+  const [disable, setDisable] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -32,6 +34,7 @@ export default function DeliveryManEdit() {
   const { order } = useSelector((state) => state.order);
 
   const handleSubmit = () => {
+    setDisable(true);
     const { recipient_id, deliveryman_id, product } = order;
     dispatch(
       orderActions.addRequest({ id, recipient_id, deliveryman_id, product })

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import api from '~/services/api';
 
+import api from '~/services/api';
 import * as appActions from '~/store/modules/app/actions';
 import MenuList from '~/components/MenuList';
 import Pages from '~/components/Pagination';
+
 import { Container, Table } from '~/components/Container/styles';
 
 export default function Issues() {
@@ -47,13 +48,14 @@ export default function Issues() {
                 <span>#{issue.order.id}</span>
               </td>
               <td>
-                <span>{issue.description.substring(0, 15)}</span>
+                <span>{issue.description.substring(0, 50)}</span>
               </td>
               <td>
                 <MenuList
                   view="issue"
                   id={issue.order.id}
                   description={issue.description}
+                  order={issue.order}
                   path="/cancel"
                   messageConfirm={`Confirma o cancelamneto da encomenda #${issue.order.id} para o destinatário ${issue.order.recipient.nome}?`}
                 />

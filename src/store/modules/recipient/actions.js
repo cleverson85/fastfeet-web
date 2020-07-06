@@ -51,19 +51,16 @@ export function confirmSuccess(payload) {
   };
 }
 
-export function setLocation({
-  cep,
-  logradouro: rua,
-  localidade: cidade,
-  uf: estado,
-}) {
+export function setLocation({ nome, cep, rua, cidade, estado, complemento }) {
   return {
     type: '@recipient/LOCATION_REQUEST',
     payload: {
+      nome,
       cep,
       rua,
       cidade,
       estado,
+      complemento,
     },
   };
 }

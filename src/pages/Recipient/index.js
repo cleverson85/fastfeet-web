@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Input } from '@rocketseat/unform';
 import { FaPlus } from 'react-icons/fa';
+
 import api from '~/services/api';
 import * as appActions from '~/store/modules/app/actions';
 import history from '~/services/history';
-
 import MenuList from '~/components/MenuList';
 import Pages from '~/components/Pagination';
+
 import { Container, Table } from '~/components/Container/styles';
 
 export default function Recipient() {

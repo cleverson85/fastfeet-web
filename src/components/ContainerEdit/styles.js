@@ -65,6 +65,7 @@ export const Container = styled.div.attrs((props) => ({
 
 export const Button = styled.button.attrs((props) => ({
   label: props.label,
+  disabled: props.disabled,
 }))`
   display: flex;
   justify-content: center;
@@ -92,9 +93,17 @@ export const Button = styled.button.attrs((props) => ({
       background: #7d40e7 0% 0% no-repeat padding-box;
     `}
 
-    &:hover {
+  &:hover {
     opacity: 0.9;
   }
+
+  ${(props) =>
+    props.disabled === true &&
+    css`
+      pointer-events: none;
+      opacity: 0.5;
+      background: #cccccc;
+    `}
 
   svg {
     cursor: pointer;

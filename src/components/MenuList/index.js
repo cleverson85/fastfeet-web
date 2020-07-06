@@ -3,7 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import { MdMoreHoriz, MdVisibility, MdCreate, MdDelete } from 'react-icons/md';
+import {
+  MdMoreHoriz,
+  MdVisibility,
+  MdCreate,
+  MdDelete,
+  MdLocalShipping,
+} from 'react-icons/md';
 
 import * as deliveryManActions from '~/store/modules/deliveryman/actions';
 import * as recipientActions from '~/store/modules/recipient/actions';
@@ -17,8 +23,6 @@ export default function MenuList(props) {
   const dispatch = useDispatch();
   const isVisible = useSelector((state) => state.app.visible);
   const { id, description, messageConfirm, path, view, order, status } = props;
-
-  console.log(status?.props.status);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -52,7 +56,18 @@ export default function MenuList(props) {
 
   const Excluir = () => {
     dispatch(appActions.confirmRequest(true, id, messageConfirm, path));
+    handleClose();
+  };
 
+  const Retirar = () => {
+    dispatch(
+      appActions.confirmRequest(
+        true,
+        id,
+        `Confirma retirada da encomenda #${order?.id} para o destinatário ${order?.recipient.nome}?`,
+        '/delivery'
+      )
+    );
     handleClose();
   };
 
@@ -72,6 +87,13 @@ export default function MenuList(props) {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
+        {status?.props.status === 'pendente' && order.deliveryMan ? (
+          <MenuItem item="retirar" onClick={Retirar}>
+            <MdLocalShipping color="#8BC34A" />
+            <Item>Retirar</Item>
+          </MenuItem>
+        ) : null}
+
         {isVisible || view === 'issue' ? (
           <MenuItem item="visualizar" onClick={Visualizar}>
             <MdVisibility color="#8e5be8" />
@@ -80,6 +102,7 @@ export default function MenuList(props) {
         ) : null}
 
         {view === 'issue' ||
+        status?.props.status === 'entregue' ||
         status?.props.status === 'retirado' ||
         status?.props.status === 'cancelado' ? null : (
           <MenuItem item="editar" onClick={Editar}>
@@ -88,7 +111,9 @@ export default function MenuList(props) {
           </MenuItem>
         )}
 
-        {status?.props.status === 'retirado' ? null : (
+        {status?.props.status === 'retirado' ||
+        status?.props.status === 'entregue' ||
+        order?.end_date ? null : (
           <MenuItem item="excluir" onClick={Excluir}>
             <MdDelete color="#de3b3b" />
             <Item>{view === 'issue' ? 'Cancelar encomenda' : 'Excluir'} </Item>

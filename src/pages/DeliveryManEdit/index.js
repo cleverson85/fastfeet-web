@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FaCheck, FaArrowLeft } from 'react-icons/fa';
 import { Form, Input } from '@rocketseat/unform';
-import AvatarInput from './AvatarInput';
+import AvatarInput from '~/components/AvatarInput';
 
 import history from '~/services/history';
 import * as deliveryManActions from '~/store/modules/deliveryman/actions';

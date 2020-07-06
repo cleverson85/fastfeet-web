@@ -84,8 +84,9 @@ function SimpleModal() {
               </p>
               <h3>Assinatura do destinatário</h3>
               <img
-                src="https://api.adorable.io/avatars/145/abott@adorable.png"
-                alt="Logo"
+                height="40%"
+                src={order?.signature ? order?.signature.url : ''}
+                alt=""
               />
             </Container>
           )}

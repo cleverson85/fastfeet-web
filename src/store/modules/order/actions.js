@@ -13,8 +13,6 @@ export function editRequest(id) {
 }
 
 export function editSuccess(payload) {
-  console.tron.log(payload);
-
   return {
     type: '@order/EDIT_SUCCESS',
     payload,

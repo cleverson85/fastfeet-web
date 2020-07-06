@@ -4,15 +4,13 @@ import api from '~/services/api';
 import history from '~/services/history';
 
 import { editSuccess, confirmRequest, confirmSuccess } from './actions';
-import CepMask from '~/util/cepMask';
+import util from '~/util/index';
 
 function* editRecipient({ id }) {
   try {
     const response = yield call(api.get, `recipient/${id}`);
-
     const { cep } = response.data;
-
-    response.data.cep = CepMask(String(cep));
+    response.data.cep = util.CepMask(String(cep));
 
     yield put(editSuccess(response.data));
 
@@ -26,7 +24,6 @@ function* addRecipient({ payload }) {
   try {
     const { id } = payload;
     let response = null;
-
     payload.cep = payload.cep.replace('-', '');
 
     if (id) {
@@ -42,7 +39,6 @@ function* addRecipient({ payload }) {
     }
 
     toast.success(data.message);
-
     history.push('/recipient');
   } catch (e) {
     toast.warn(e);
@@ -53,9 +49,7 @@ function* confirmDelete({ payload }) {
   let response = null;
   try {
     const { id } = payload;
-
     response = yield call(api.delete, `recipient/${id}`);
-
     const { data } = response;
 
     if (data.status !== 200) {
@@ -65,7 +59,6 @@ function* confirmDelete({ payload }) {
     yield put(confirmSuccess(payload));
 
     toast.success(data.message);
-
     history.push('/recipient');
   } catch (e) {
     yield put(confirmRequest(false, null, null, null));

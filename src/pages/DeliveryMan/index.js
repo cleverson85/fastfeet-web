@@ -3,12 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Input } from '@rocketseat/unform';
 import { FaPlus } from 'react-icons/fa';
 import Avatar from 'react-avatar';
+
 import api from '~/services/api';
 import history from '~/services/history';
 import * as appActions from '~/store/modules/app/actions';
-
 import MenuList from '~/components/MenuList';
 import Pages from '~/components/Pagination';
+
 import { Container, Table } from '~/components/Container/styles';
 
 export default function DeliveryMan() {

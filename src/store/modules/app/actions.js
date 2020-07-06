@@ -58,6 +58,12 @@ export function confirmSucess(id, path) {
         payload: { id },
       };
 
+    case '/delivery':
+      return {
+        type: '@order/DELIVERY_SUCCESS',
+        payload: { id },
+      };
+
     default:
       return {
         type: '@app/APP_CONFIRM_SUCCESS',

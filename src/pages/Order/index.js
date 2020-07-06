@@ -3,13 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Input } from '@rocketseat/unform';
 import { FaPlus } from 'react-icons/fa';
 import Avatar from 'react-avatar';
-import GetStatus from '~/util/status';
+
+import util from '~/util/index';
 import api from '~/services/api';
 import * as appActions from '~/store/modules/app/actions';
 import history from '~/services/history';
-
 import MenuList from '~/components/MenuList';
 import Pages from '~/components/Pagination';
+
 import { Container, Table } from '~/components/Container/styles';
 
 export default function Order() {
@@ -31,7 +32,7 @@ export default function Order() {
 
       const data = response.data.map((order) => ({
         ...order,
-        status: GetStatus(order),
+        status: util.GetStatus(order),
       }));
 
       setOrders(data);
@@ -45,7 +46,7 @@ export default function Order() {
 
     const data = response.data.map((order) => ({
       ...order,
-      status: GetStatus(order),
+      status: util.GetStatus(order),
     }));
 
     setOrders(data);
@@ -83,7 +84,7 @@ export default function Order() {
             <th>ID</th>
             <th>Destinatário</th>
             <th>Produto</th>
-            <th />
+            <th>#</th>
             <th>Entregador</th>
             <th>Cidade</th>
             <th>Estado</th>
