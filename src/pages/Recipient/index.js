@@ -56,7 +56,7 @@ export default function Recipient() {
             name="buscar"
             type="text"
             placeholder="Buscar por destinatários"
-            onBlur={(e) => findRecipientByName(e.target.value)}
+            onChange={(e) => findRecipientByName(e.target.value)}
           />
           <button type="button" onClick={recipientCad}>
             <FaPlus color="#FFF" size={12} />

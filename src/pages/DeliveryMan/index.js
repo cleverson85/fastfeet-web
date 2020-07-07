@@ -57,7 +57,7 @@ export default function DeliveryMan() {
             name="buscar"
             type="text"
             placeholder="Buscar por entregadores"
-            onBlur={(e) => findDeliveryManByName(e.target.value)}
+            onChange={(e) => findDeliveryManByName(e.target.value)}
           />
           <button type="button" onClick={deliverManCad}>
             <FaPlus color="#FFF" size={12} />

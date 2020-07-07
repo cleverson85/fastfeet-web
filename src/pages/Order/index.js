@@ -70,7 +70,7 @@ export default function Order() {
             name="buscar"
             type="text"
             placeholder="Buscar por encomendas"
-            onBlur={(e) => findOrderByProductName(e.target.value)}
+            onChange={(e) => findOrderByProductName(e.target.value)}
           />
           <button type="button" onClick={orderCad}>
             <FaPlus color="#FFF" size={12} />
