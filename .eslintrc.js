@@ -46,7 +46,8 @@ module.exports = {
     camelcase: 'off',
     'react/jsx-props-no-spreading': 'off',
     'react-hooks/rules-of-hooks': 'error',
-    'react-hooks/exhaustive-deps': 'warn'
+    'react-hooks/exhaustive-deps': 'warn',
+    'jsx-a11y/label-has-associated-control': 'off'
   },
   settings: {
     'import/resolver': {

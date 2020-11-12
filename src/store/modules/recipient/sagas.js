@@ -26,6 +26,8 @@ function* addRecipient({ payload }) {
     let response = null;
     payload.cep = payload.cep.replace('-', '');
 
+    console.log(payload);
+
     if (id) {
       response = yield call(api.put, 'recipient', payload);
     } else {

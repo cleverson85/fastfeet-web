@@ -20,11 +20,6 @@ export default function DeliveryMan() {
 
   dispatch(appActions.visibleRequest(false));
 
-  const { reload } = useSelector((state) => state.app);
-  if (reload) {
-    dispatch(appActions.reload(false));
-  }
-
   useEffect(() => {
     async function loadDeliveryMan() {
       const response = await api.get('deliveryman');
@@ -32,10 +27,10 @@ export default function DeliveryMan() {
     }
 
     loadDeliveryMan();
-  }, [reload]);
+  }, []);
 
   async function findDeliveryManByName(value) {
-    const response = await api.get(`deliveryman?deliveryman=${value}`);
+    const response = await api.get(`deliveryman?name=${value}`);
     setdeliveryMan(response.data);
   }
 

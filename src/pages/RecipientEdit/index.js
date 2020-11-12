@@ -9,6 +9,8 @@ import apiCep from '~/services/apiCep';
 import history from '~/services/history';
 import * as recipientActions from '~/store/modules/recipient/actions';
 
+import Input from '~/components/Input';
+
 import { Container, Button } from './styles';
 
 export default function DeliveryManEdit() {
@@ -41,14 +43,11 @@ export default function DeliveryManEdit() {
   async function handleCep(e) {
     const response = await apiCep(e);
     const { data } = response;
-    dispatch(
-      recipientActions.setLocation({
-        cep: data.cep,
-        rua: data.logradouro,
-        cidade: data.localidade,
-        estado: data.uf,
-      })
-    );
+
+    setCep(data.cep);
+    setRua(data.logradouro);
+    setCidade(data.localidade);
+    setEstado(data.uf);
   }
 
   const handleSubmit = () => {
@@ -97,16 +96,16 @@ export default function DeliveryManEdit() {
         </div>
       </div>
       <form autoComplete="off">
-        <label>Nome</label>
-        <input
+        <Input
+          label="Nome"
           name="nome"
           value={nome}
           onChange={(e) => setNome(e.target.value)}
         />
         <div>
           <div>
-            <label>Cep</label>
-            <input
+            <Input
+              label="Cep"
               name="cep"
               value={cep}
               onChange={(e) => setCep(e.target.value)}
@@ -114,16 +113,16 @@ export default function DeliveryManEdit() {
             />
           </div>
           <div>
-            <label>Rua</label>
-            <input
+            <Input
+              label="Rua"
               name="rua"
               value={rua}
               onChange={(e) => setRua(e.target.value)}
             />
           </div>
           <div>
-            <label>Número</label>
-            <input
+            <Input
+              label="Número"
               name="numero"
               type="number"
               value={numero}
@@ -133,24 +132,24 @@ export default function DeliveryManEdit() {
         </div>
         <div>
           <div>
-            <label>Cidade</label>
-            <input
+            <Input
+              label="Cidade"
               name="cidade"
               value={cidade}
               onChange={(e) => setCidade(e.target.value)}
             />
           </div>
           <div>
-            <label>Estado</label>
-            <input
+            <Input
+              label="Estado"
               name="estado"
               value={estado}
               onChange={(e) => setEstado(e.target.value)}
             />
           </div>
           <div>
-            <label>Complemento</label>
-            <input
+            <Input
+              label="Complemento"
               name="complemento"
               value={complemento}
               onChange={(e) => setComplemento(e.target.value)}
